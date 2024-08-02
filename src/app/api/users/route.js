@@ -26,9 +26,8 @@ export async function POST(request) {
     try {
     const { firstname, lastname, username, password } = await request.json();
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
-    const res = await client.query('INSERT INTO tbl_user (firstname, lastname, username, password) VALUES ($1, $2, $3, $4) RETURNING *', [firstname, lastname, username, hashedPassword]);
+    
+    const res = await client.query('INSERT INTO tbl_user (firstname, lastname, username, password) VALUES ($1, $2, $3, $4) RETURNING *', [firstname, lastname, username, password]);
     return new Response(JSON.stringify(res.rows[0]), {
     status: 201,
     headers: { 'Content-Type': 'application/json' },
